@@ -26,9 +26,10 @@ $currencyController = new CurrencyController($currencyService);
 if ($path === '/' && $method === 'GET') {
     $rates = $currencyController->index();
 
-} elseif ($path === '/update' && $method === 'POST') {
+} elseif ($path === '/store' && $method === 'POST') {
 
-    $rates = $currencyController->store();
+    $rates = $currencyController->index();
+
 } elseif ($path === '/exchange' && $method === 'POST') {
     $exchangeResult = $currencyController->exchange();
 } else {
@@ -36,7 +37,7 @@ if ($path === '/' && $method === 'GET') {
     echo "404 - Page not found";
 }
 ?>
-<?php if (!http_response_code(404)): ?>
+<?php //if (!http_response_code(404)): ?>
     <div class="container">
     <form method="post" action="/exchange">
         <label for="amount">Kwota:</label>
@@ -116,14 +117,13 @@ if ($path === '/' && $method === 'GET') {
         </div>
         </div>
 
-        <div class="col-xs-6">
-            <form action="/update" method="POST">
-                <button type="submit" class="btn btn-primary">Update table</button>
-            </form>
-        </div>
-
     <?php endif ?>
-<?php endif ?>
+
+<div class="col-xs-6">
+    <form action="/store" method="POST">
+        <button type="submit" class="btn btn-primary">Update table</button>
+    </form>
+</div>
 <?php
 include('includes/footer.php');
 ?>
