@@ -13,13 +13,13 @@ class CurrencyController
         $this->service = $service;
     }
 
-    public function index()
+    public function index(): array
     {
         $rates = $this->service->getAllExchangeRatesFromDB();
         return $this->service->mapRates($rates);
     }
 
-    public function store()
+    public function update(): array
     {
         $rates = $this->service->saveAllExchangeRates();
         return $this->service->mapRates($rates);
