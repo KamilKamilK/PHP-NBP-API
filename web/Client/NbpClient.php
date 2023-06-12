@@ -2,16 +2,19 @@
 
 namespace Client;
 
+include __DIR__ . '/../Interfaces/ClientInterface.php';
+
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Interfaces\ClientInterface;
 
-class NbpClient
+class NbpClient implements ClientInterface
 {
     const NBP_URL = 'http://api.nbp.pl/api';
     const HEADERS = ['Accept' => 'application/json'];
 
-    public function getCurrentExchangeRates($table)
+    public function getData(?string $table = null)
     {
         $url = $this->buildUrl($table);
         $response = $this->sendRequest($url);
@@ -21,12 +24,10 @@ class NbpClient
         }
 
         $response = json_decode($response, true);
-
-//        var_dump($response[0]);
         return $response[0] ;
     }
 
-    public function buildUrl($table)
+    public function buildUrl(?string $table): string
     {
         return self::NBP_URL . '/exchangerates/tables/' . $table;
     }

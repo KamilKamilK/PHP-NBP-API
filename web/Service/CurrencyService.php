@@ -3,14 +3,41 @@
 namespace Service;
 
 use Client\NbpClient;
+use Controller\CurrencyController;
 use Repository\CurrencyRepository;
 
 class CurrencyService
 {
+    public function handleRequest()
+    {
+        $path = $_SERVER['REQUEST_URI'] ?? '/';
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        $currencyService = new CurrencyService();
+        $currencyController = new CurrencyController($currencyService);
+
+        if ($path === '/' && $method === 'GET') {
+            $data['rates'] = $currencyController->index();
+            return $data;
+
+        } elseif ($path === '/update' && $method === 'POST') {
+            $data['rates'] = $currencyController->update();
+            return $data;
+
+        } elseif ($path === '/exchange' && $method === 'POST') {
+            $data['converses'] = $currencyController->exchange();
+            $data['rates'] = $currencyController->index();
+            return $data;
+
+        } else {
+            http_response_code(404);
+        }
+    }
+
     public function getAllExchangeRatesFromNbp()
     {
         $client = new NbpClient();
-        $response = $client->getCurrentExchangeRates('A');
+        $response = $client->getData('A');
 
         return $response['rates'];
     }
@@ -26,7 +53,6 @@ class CurrencyService
         foreach ($ratesFromDB as $rate) {
             $codesArrDB[] = $rate[2];
         }
-
 
         foreach ($ratesFromNbp as $rate) {
             $name = $rate['currency'];
@@ -112,5 +138,13 @@ class CurrencyService
     {
         $repository = new CurrencyRepository();
         return $repository->getAllConversions();
+    }
+
+    public function handleNotFoundResponse()
+    {
+        echo '<div class="container" style="display: flex; justify-content: center; align-items: center;">';
+        echo '<h1>404 - Page not found</h1>';
+        echo '</div>';
+        exit;
     }
 }

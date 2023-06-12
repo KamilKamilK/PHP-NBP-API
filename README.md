@@ -4,6 +4,8 @@ The application is integrated with the NBP bank. You can see list of currencies 
 If List is empty you must click update button. 
 Additional function is possibility to converse pasted amount in chosen currency.
 
+To start press "Update table" button.
+
 ## Requirements
 
 Make sure you have the latest versions of **Docker** and **Docker Compose** installed on your machine.
