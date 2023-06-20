@@ -1,18 +1,21 @@
 <?php
 declare(strict_types=1);
 
+use Service\Connection;
 use Service\CurrencyService;
 
-require "/srv/www/vendor/autoload.php";
+require "./../vendor/autoload.php";
 
 include __DIR__ . '/Client/NbpClient.php';
 include __DIR__ . '/Repository/CurrencyRepository.php';
 include __DIR__ . '/Service/CurrencyService.php';
+include __DIR__ . '/Service/Connection.php';
 include __DIR__ . '/Controller/CurrencyController.php';
 
-include 'includes/connection.php';
 include 'includes/header.php';
 include 'includes/navigation_bar.php';
+
+$conn = Connection::getInstance()->getConnection();
 
 $currencyService = new CurrencyService();
 $rates = $currencyService->handleRequest();

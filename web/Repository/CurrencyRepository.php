@@ -3,12 +3,14 @@
 namespace Repository;
 
 use PDO;
+use Service\Connection;
 
 class CurrencyRepository
 {
     public function getAll(): array
     {
-        global $conn;
+        $conn = Connection::getInstance()->getConnection();
+
         $sql = "SELECT *
                 FROM currency
                 ORDER BY currency_code";
@@ -19,7 +21,8 @@ class CurrencyRepository
 
     public function getAllConversions(): array
     {
-        global $conn;
+        $conn = Connection::getInstance()->getConnection();
+
         $sql = "SELECT *
                 FROM conversions
                 ORDER BY created_at DESC";
