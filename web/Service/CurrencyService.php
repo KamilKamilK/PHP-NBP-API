@@ -77,7 +77,7 @@ class CurrencyService
 
     public function getAllExchangeRatesFromDB(): array
     {
-        $repository = new  .CurrencyRepository();
+        $repository = new CurrencyRepository();
         return $repository->getAll();
     }
 
